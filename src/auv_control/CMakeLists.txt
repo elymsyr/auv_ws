@@ -19,6 +19,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(Eigen3 REQUIRED)
@@ -26,6 +27,7 @@ find_package(nlohmann_json REQUIRED)
 find_package(Torch REQUIRED)
 find_package(CUDA REQUIRED)
 find_package(gazebo_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 # =================================================================
 # 3. GENERATE ROS 2 INTERFACES
@@ -82,6 +84,8 @@ ament_target_dependencies(auv_orchestrator_node
   std_msgs
   builtin_interfaces
   gazebo_msgs
+  std_srvs
+  tf2_geometry_msgs
 )
 
 target_link_libraries(auv_orchestrator_node

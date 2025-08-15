@@ -17,9 +17,11 @@
   <depend>rclcpp</depend>
   <depend>rclcpp_lifecycle</depend>
   <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
   <depend>builtin_interfaces</depend>
   <depend>nlohmann_json</depend>
   <depend>Eigen3</depend>
+  <depend>tf2_geometry_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

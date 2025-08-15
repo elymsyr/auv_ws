@@ -3,6 +3,7 @@
 
 // ROS 2 Includes for lifecycle nodes, messages, and services
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
+#include "std_srvs/srv/empty.hpp"
 #include "auv_control/msg/mission_topic.hpp"
 #include "auv_control/msg/signal_topic.hpp"
 #include "auv_control/msg/environment_topic.hpp"
@@ -65,6 +66,10 @@ private:
     rclcpp::Service<auv_control::srv::Trigger>::SharedPtr start_mission_service_;
     rclcpp::Service<auv_control::srv::Trigger>::SharedPtr stop_mission_service_;
     rclcpp::Service<auv_control::srv::GetStatus>::SharedPtr get_status_service_;
+
+    rclcpp::Client<std_srvs::srv::Empty>::SharedPtr pause_client_;
+    rclcpp::Client<std_srvs::srv::Empty>::SharedPtr unpause_client_;
+    void call_gazebo_pause_service(bool pause);
 
     // --- Internal State & Mission Logic ---
     auv_control::msg::EnvironmentTopic env_state_;

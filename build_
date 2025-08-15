@@ -9,64 +9,43 @@ rm -rf build install log
 chmod +x src/gazebo_sim/scripts/*.py src/gazebo_sim/launch/*.py 
 chmod +r src/gazebo_sim/config/config.json
 
+-----------------------------------------------------------------------------------------------
+
 cd ~/GitHub/auv_ws
 rm -rf build install log
 colcon build --cmake-clean-cache --symlink-install \
   --cmake-args "-DCMAKE_PREFIX_PATH=$(pwd)/libtorch"
 source install/setup.bash
 
+-----------------------------------------------------------------------------------------------
+
+source install/setup.bash
 ros2 launch auv_control sim_with_control.launch.py
 
 -----------------------------------------------------------------------------------------------
 
-cd ~/GitHub/auv_ws
-rm -rf build install log
-colcon build --cmake-clean-cache --symlink-install --packages-select auv_control
 source install/setup.bash
-colcon build --symlink-install --packages-select gazebo_sim
-source install/setup.bash
-
------------------------------------------------------------------------------------------------
-
-source /opt/ros/humble/setup.bash
-cd ~/GitHub/auv_ws
-chmod +x src/gazebo_sim/scripts/*.py src/gazebo_sim/launch/*.py 
-chmod +r src/gazebo_sim/config/config.json
-rm -rf build install log
-colcon build --symlink-install --packages-select gazebo_sim
-source install/setup.bash
-ros2 launch gazebo_sim auv.launch.py
-
-cd ~/GitHub/auv_ws
-source install/setup.bash
-ros2 run gazebo_sim keyboard_teleop.py
-
------------------------------------------------------------------------------------------------
-
-export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:/home/elymsyr/GitHub/auv_ws/libtorch
-source /opt/ros/humble/setup.bash
-cd ~/GitHub/auv_ws
-colcon build --symlink-install --packages-select auv_control
-source install/setup.bash
-ros2 run auv_control auv_orchestrator_node
-
-ros2 node list
-ros2 topic list
-ros2 service list
-ros2 action list
-
-ros2 lifecycle get /auv_orchestrator
 ros2 lifecycle set /auv_orchestrator configure
 ros2 lifecycle set /auv_orchestrator activate
 
+-----------------------------------------------------------------------------------------------
+
+source install/setup.bash
 ros2 topic echo /environment_state
 
-ros2 service list -t
-ros2 service call /mission/get_status auv_control/srv/GetStatus "{}"
-ros2 service call /mission/set auv_control/srv/SetMission "{mission_id: 'deep_dive_1', target_depth: 50.0}"
+-----------------------------------------------------------------------------------------------
 
-# Check the mission status
-ros2 service call /mission/get_status auv_control/srv/GetStatus "{}"
-
-# Start the mission
+source install/setup.bash
+ros2 service call /mission/set auv_control/srv/SetMission "{mission_type: 0}"
 ros2 service call /mission/start auv_control/srv/Trigger "{}"
+
+-----------------------------------------------------------------------------------------------
+
+echo "---- ros2 node list ----"
+ros2 node list
+echo "---- ros2 topic list -t ----"
+ros2 topic list -t
+echo "---- ros2 service list -t ----"
+ros2 service list -t
+echo "---- ros2 action list -t ----"
+ros2 action list -t

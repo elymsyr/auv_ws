@@ -20,7 +20,7 @@ def generate_launch_description():
     set_qt_platform = SetEnvironmentVariable(name='QT_QPA_PLATFORM', value='xcb')
 
     start_gazebo_server_cmd = ExecuteProcess(
-        cmd=['gzserver', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world_path],
+        cmd=['gzserver', '-u', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world_path],
         output='screen'
     )
     start_gazebo_client_cmd = ExecuteProcess(cmd=['gzclient'], output='screen')

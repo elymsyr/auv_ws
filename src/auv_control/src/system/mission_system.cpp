@@ -39,6 +39,11 @@ bool MissionSystem::configure() {
         "mission/get_status", std::bind(&MissionSystem::get_status_callback, this, std::placeholders::_1, std::placeholders::_2));
 
     RCLCPP_INFO(node_->get_logger(), "MissionSystem configured successfully.");
+    
+    pause_client_ = node_->create_client<std_srvs::srv::Empty>("/pause_physics");
+    unpause_client_ = node_->create_client<std_srvs::srv::Empty>("/unpause_physics");
+
+    RCLCPP_INFO(node_->get_logger(), "MissionSystem configured successfully.");
     return true;
 }
 
@@ -160,6 +165,7 @@ void MissionSystem::set_mission_callback(const std::shared_ptr<auv_control::srv:
 
 void MissionSystem::start_mission_callback(const std::shared_ptr<auv_control::srv::Trigger::Request>,
                                            std::shared_ptr<auv_control::srv::Trigger::Response> response) {
+    call_gazebo_pause_service(false);
     std::lock_guard<std::mutex> lock(mission_control_mtx_);
     if (active_mission_) {
         mission_running_ = true;
@@ -175,6 +181,7 @@ void MissionSystem::start_mission_callback(const std::shared_ptr<auv_control::sr
 
 void MissionSystem::stop_mission_callback(const std::shared_ptr<auv_control::srv::Trigger::Request>,
                                           std::shared_ptr<auv_control::srv::Trigger::Response> response) {
+    call_gazebo_pause_service(true);
     std::lock_guard<std::mutex> lock(mission_control_mtx_);
     if (mission_running_) {
         active_mission_->terminate();
@@ -207,4 +214,30 @@ void MissionSystem::array_to_ros_msg(const std::array<std::array<double, 12>, HO
         std::copy(ref_path[i].begin(), ref_path[i].begin() + 6, msg.trajectory[i].eta_desired.begin());
         std::copy(ref_path[i].begin() + 6, ref_path[i].end(), msg.trajectory[i].nu_desired.begin());
     }
+}
+
+void MissionSystem::call_gazebo_pause_service(bool pause) {
+    auto client = pause ? pause_client_ : unpause_client_;
+    auto service_name = pause ? "/pause_physics" : "/unpause_physics";
+
+    // Wait for the service to be available
+    if (!client->wait_for_service(std::chrono::seconds(1))) {
+        RCLCPP_ERROR(node_->get_logger(), "Service '%s' not available.", service_name);
+        return;
+    }
+
+    // Create a request (it's empty for this service type)
+    auto request = std::make_shared<std_srvs::srv::Empty::Request>();
+
+    // Asynchronously call the service
+    // We use a lambda to log the result when it comes back
+    client->async_send_request(request, 
+        [this, service_name](rclcpp::Client<std_srvs::srv::Empty>::SharedFuture future) {
+            // This part runs when the service call is complete
+            if (future.valid()) {
+                RCLCPP_INFO(node_->get_logger(), "Service call '%s' successful.", service_name);
+            } else {
+                RCLCPP_ERROR(node_->get_logger(), "Failed to call service '%s'.", service_name);
+            }
+        });
 }
