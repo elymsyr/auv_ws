@@ -1,0 +1,6 @@
+# A generic service to trigger an action like start, stop, or reset.
+# The request is empty as the topic name implies the action.
+---
+# The response indicates if the trigger was successful.
+bool success
+string message

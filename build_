@@ -1,0 +1,49 @@
+export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:/home/elymsyr/GitHub/auv_ws/libtorch
+cd ~/GitHub/auv_ws
+chmod +x src/gazebo_sim/scripts/*.py src/gazebo_sim/launch/*.py 
+chmod +r src/gazebo_sim/config/config.json
+rm -rf build install log
+colcon build --symlink-install
+
+-----------------------------------------------------------------------------------------------
+
+cd ~/GitHub/auv_ws
+chmod +x src/gazebo_sim/scripts/*.py src/gazebo_sim/launch/*.py 
+chmod +r src/gazebo_sim/config/config.json
+rm -rf build install log
+colcon build --symlink-install --packages-select gazebo_sim
+source install/setup.bash
+ros2 launch gazebo_sim auv.launch.py
+
+cd ~/GitHub/auv_ws
+source install/setup.bash
+ros2 run gazebo_sim keyboard_teleop.py
+
+-----------------------------------------------------------------------------------------------
+
+export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:/home/elymsyr/GitHub/auv_ws/libtorch
+cd ~/GitHub/robot_sim
+colcon build --symlink-install --packages-select auv_control
+source install/setup.bash
+ros2 run auv_control auv_orchestrator_node
+
+ros2 node list
+ros2 topic list
+ros2 service list
+ros2 action list
+
+ros2 lifecycle get /auv_orchestrator
+ros2 lifecycle set /auv_orchestrator configure
+ros2 lifecycle set /auv_orchestrator activate
+
+ros2 topic echo /environment_state
+
+ros2 service list -t
+ros2 service call /mission/get_status auv_control/srv/GetStatus "{}"
+ros2 service call /mission/set auv_control/srv/SetMission "{mission_id: 'deep_dive_1', target_depth: 50.0}"
+
+# Check the mission status
+ros2 service call /mission/get_status auv_control/srv/GetStatus "{}"
+
+# Start the mission
+ros2 service call /mission/start auv_control/srv/Trigger "{}"

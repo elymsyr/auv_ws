@@ -1,0 +1,155 @@
+{
+    "assembly_mass_properties": {
+        "configuration": "Default",
+        "coordinate_system": "-- default --",
+        "dynamics": {
+            "fluid_density": {
+                "value": 1025.0,
+                "unit": "kilogram_per_meter_cubed"
+            },
+            "displaced_volume": {
+                "value": 0.0088,
+                "unit": "meter_cubed"
+            },
+            "g": {
+                "value": 9.81,
+                "unit": "meter_per_second_squared"
+            },
+            "damping": {
+                "linear": {
+                  "unit": "N·s/m",
+                  "D_u": 1.0,
+                  "D_v": 1.0,
+                  "D_w": 1.0
+                },
+                "angular": {
+                  "unit": "N·m·s/rad",
+                  "D_p": 2.0,
+                  "D_q": 2.0,
+                  "D_r": 2.0
+                },
+                "linear_n": {
+                  "unit": "N·s/m",
+                  "Dn_u": 2.0,
+                  "Dn_v": 2.0,
+                  "Dn_w": 2.0
+                },
+                "angular_n": {
+                  "unit": "N·m·s/rad",
+                  "Dn_p": 0.5,
+                  "Dn_q": 0.5,
+                  "Dn_r": 0.5
+                }
+              },
+            "propeller":
+            {
+                "unit": "meter",
+                "radius": 0.1,
+                "pitch": 0.1,
+                "chord": 0.1,
+                "change_matrix_high": [0.0, 0.4, 0.6, 1.0],
+                "change_matrix_low": [1.0, 0.2, 0.0],
+                "change_matrix_dt": 0.1,
+                "number_of_blades": 3,
+                "thrust_coefficient": 0.1,
+                "torque_coefficient": 0.1,
+                "force_range_f_m": {
+                    "unit": "newton",
+                    "max": 80.0
+                },
+                "force_range_r": {
+                    "unit": "newton_meter",
+                    "max": 30.0
+                }
+            }
+        },
+        "mass": {
+            "value": 11.0,
+            "unit": "kilogram"
+        },
+        "added_mass": {
+            "unit": "coefficient",
+            "C_X": 0.1,
+            "C_Y": 0.2,
+            "C_Z": 0.2,
+            "C_K": 0.05,
+            "C_M": 0.05,
+            "C_N": 0.05,
+            "C_Y_r": 0.0,
+            "C_Z_q": 0.0 
+        },
+        "volume": {
+            "value": 1.0,
+            "unit": "meter_cubed"
+        },
+        "surface_area": {
+            "value": 1.42607593,
+            "unit": "meter_squared"
+        },
+        "dimensions": {
+            "unit": "meter",
+            "width": 0.415,
+            "height": 0.305,
+            "length": 0.5054,
+            "lm": 0.2,
+            "wf": 0.2,
+            "lr": 0.3,
+            "rf": 0.1
+        },
+        "center_of_buoancy": {
+            "unit": "meter",
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": -0.5
+        },
+        "center_of_mass": {
+            "unit": "meter",
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+        },
+        "rear_propeller_angle": {
+            "unit": "degree",
+            "value": 45.0
+        },
+        "principal_axes_and_moments_of_inertia": {
+            "unit": "kilogram * meter_squared",
+            "Ix": {
+                "axis": [0.0, 0.0, 1.0],
+                "moment": 0.1
+            },
+            "Iy": {
+                "axis": [1.0, 0.0, 0.0],
+                "moment": 0.1
+            },
+            "Iz": {
+                "axis": [0.0, 1.0, 0.0],
+                "moment": 0.1
+            }
+        },
+        "moments_of_inertia_about_center_of_mass": {
+            "unit": "kilogram * meter_squared",
+            "Lxx": 0.1875,
+            "Lxy": 0.0,
+            "Lxz": 0.0,
+            "Lyx": 0.0,
+            "Lyy": 0.3375,
+            "Lyz": 0.0,
+            "Lzx": 0.0,
+            "Lzy": 0.0,
+            "Lzz": 0.39
+        },
+        "moments_of_inertia_about_output_coordinate_system": {
+            "unit": "kilogram * meter_squared",
+            "Ixx": 0.37580899136,
+            "Ixy": 0.00001732632,
+            "Ixz": -0.01800006801,
+            "Iyx": 0.00001732632,
+            "Iyy": 0.42025446908,
+            "Iyz": -0.00531800737,
+            "Izx": -0.01800006801,
+            "Izy": -0.00531800737,
+            "Izz": 0.06905385075
+        }
+    }
+}

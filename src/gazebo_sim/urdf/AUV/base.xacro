@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot name="AUV" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!--
+    This XACRO file has been updated to use a custom C++ Gazebo plugin
+    for all dynamics calculations, replacing the external Python nodes.
+  -->
+
+  <!-- Loading vehicle's specific macros -->
+  <xacro:include filename="$(find gazebo_sim)/urdf/AUV/common.xacro"/>
+  <!-- NOTE: The 'gazebo.xacro' might contain other plugins. Review it to ensure
+       there are no conflicting physics plugins like the default hydrodynamics one. -->
+  <xacro:include filename="$(find gazebo_sim)/urdf/AUV/gazebo.xacro"/>
+
+  <!-- Vehicle's parameters -->
+  <xacro:property name="mass" value="11.0"/> <!-- Updated mass from your JSON -->
+  <!-- Center of gravity (from your JSON config) -->
+  <xacro:property name="cog" value="0.0 0.0 0.0"/>
+
+  <!-- Visual mesh file for the vehicle -->
+  <xacro:property name="visual_mesh_file" value="file://$(find gazebo_sim)/urdf/meshes/AUV/body.dae"/>
+
+  <!-- Base link of the AUV -->
+  <link name="base_link">
+    <inertial>
+      <mass value="${mass}" />
+      <origin xyz="${cog}" rpy="0 0 0"/>
+      <!--
+        IMPORTANT: These inertia values should be updated to match the
+        'moments_of_inertia_about_center_of_mass' from your JSON file.
+        The default values based on a cylinder are placeholders.
+      -->
+      <inertia ixx="0.1875" ixy="0.0" ixz="0.0"
+               iyy="0.3375" iyz="0.0"
+               izz="0.3900" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${visual_mesh_file}" scale="1 1 1" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <!-- Using a simpler cylinder for collision is often more stable and faster -->
+        <cylinder radius="0.1" length="0.5"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!--
+    ========================================================================
+      NEW C++ GAZEBO PLUGIN FOR CUSTOM DYNAMICS
+    ========================================================================
+    This block replaces the old system of Python nodes. Gazebo will automatically
+    load this plugin when the model is spawned.
+  -->
+  <gazebo>
+    <plugin name="auv_dynamics_plugin" filename="libauv_dynamics_plugin.so">
+        <!--
+          This parameter is passed to your C++ plugin's Load() function.
+          It tells the plugin where to find the JSON file with all the
+          vehicle's physical parameters.
+        -->
+        <config_file>$(find gazebo_sim)/config/config.json</config_file>
+    </plugin>
+  </gazebo>
+
+</robot>

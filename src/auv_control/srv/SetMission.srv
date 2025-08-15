@@ -1,0 +1,7 @@
+# Request: Use an integer to represent the mission type (enum).
+# 0: SonarMisTest, etc.
+int32 mission_type
+---
+# Response: Confirmation of the action.
+bool success
+string message

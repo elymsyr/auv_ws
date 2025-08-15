@@ -1,0 +1,16 @@
+// Matrix6d VehicleModel::coriolis_matrix(const Vector6d& nu) const {
+//     Eigen::Vector3d nu1 = nu.head<3>();
+//     Eigen::Vector3d nu2 = nu.tail<3>();
+    
+//     Matrix6d C_rb = Matrix6d::Zero();
+//     C_rb.block<3, 3>(0, 3) = -mass_ * skew_symmetric(nu1) - skew_symmetric(I_cg_ * nu2);
+//     C_rb.block<3, 3>(3, 0) = -mass_ * skew_symmetric(nu1);
+//     C_rb.block<3, 3>(3, 3) = skew_symmetric(mass_ * r_g_) * skew_symmetric(nu1); // Corrected from original translation error
+
+//     Matrix6d C_a = Matrix6d::Zero();
+//     C_a.block<3, 3>(0, 3) = -skew_symmetric(A11_added_mass_ * nu1);
+//     C_a.block<3, 3>(3, 0) = -skew_symmetric(A11_added_mass_ * nu1);
+//     C_a.block<3, 3>(3, 3) = -skew_symmetric(A22_added_mass_ * nu2);
+
+//     return C_rb + C_a;
+// }

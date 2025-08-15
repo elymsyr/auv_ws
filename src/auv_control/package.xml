@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>auv_control</name>
+  <version>0.0.0</version>
+  <description>A modular, GPU-accelerated control system for AUVs.</description>
+  <maintainer email="orhun868@gmail.com">Orhun Eren Yalçınkaya</maintainer>
+  <license>GNU General Public License v3.0</license>
+
+  <!-- This is the primary build tool for a C++ package -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!--
+    SECTION 1: Dependencies for Compiling (build_depend)
+    These are packages whose headers or libraries are needed for your C++ code to compile.
+  -->
+  <build_depend>rclcpp</build_depend>
+  <build_depend>rclcpp_lifecycle</build_depend>
+  <build_depend>builtin_interfaces</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>gazebo_msgs</build_depend>
+  <!-- NOTE: nlohmann-json-dev is a system dependency, not a ROS package.
+       It's better handled by find_package in CMakeLists.txt or a rosdep rule.
+       Leaving it out of package.xml is often cleaner unless you have a specific
+       rosdep key for it. -->
+
+  <!--
+    SECTION 2: Dependencies for Running (exec_depend)
+    These are packages whose libraries or scripts are needed when you run your code.
+  -->
+  <exec_depend>rclcpp</exec_depend>
+  <exec_depend>rclcpp_lifecycle</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>gazebo_msgs</exec_depend>
+  
+  <!--
+    SECTION 3: Dependencies for Custom Messages/Services (.msg/.srv)
+    These are essential for colcon to correctly generate C++ headers from your .msg files.
+  -->
+  <build_depend>rosidl_default_generators</build_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <!--
+    SECTION 4: Test Dependencies
+    These are only needed when you run tests.
+  -->
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <!--
+    SECTION 5: Export Block
+    This tells other ROS 2 packages what information this package provides.
+  -->
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.6">
+  <model name="diver">
+    <static>true</static>
+    <link name="pinger">
+        <pose>0 0 1.3 0 0 0</pose>
+        <visual name ='visual'>
+          <geometry>
+            <box><size>0.05 0.05 0.05</size></box>
+          </geometry>
+        </visual>
+    </link>
+
+    <link name="body">
+        <collision name="body">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>model://diver/meshes/body.dae</uri>
+              <scale>1.0 1.0 1.0</scale>
+            </mesh>
+          </geometry>
+        </collision>
+
+      <visual name="body">
+          <material>
+            <ambient>0.175 0.175 0.175  1.0</ambient>
+            <diffuse>0.175 0.175 0.175  1.0</diffuse>
+            <specular>0 0 0 0 0</specular>
+            <emissive>0.05 0.05 0.05 0.5</emissive>
+          </material>
+        <cast_shadows>true</cast_shadows>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://diver/meshes/body.dae</uri>
+            <scale>1.0 1.0 1.0</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="gear">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://diver/meshes/gear.dae</uri>
+            <scale>1.0 1.0 1.0</scale>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="gear">
+        <material>
+          <ambient>0.7 0.7 0 1.0</ambient>
+          <diffuse>0.7 0.7 0 1.0</diffuse>
+          <specular>0 0 0 0 0</specular>
+          <emissive>0.2 0.2 0.0 0.5</emissive>
+        </material>
+        <cast_shadows>true</cast_shadows>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://diver/meshes/gear.dae</uri>
+            <scale>1.0 1.0 1.0</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="mask">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://diver/meshes/mask.dae</uri>
+            <scale>1.0 1.0 1.0</scale>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="mask">
+          <material>
+            <ambient>0.13 0.44 0.70</ambient>
+            <diffuse>0.13 0.44 0.70</diffuse>
+            <specular>0.0 0.0 0.0 0</specular>
+            <emissive>0.1 0.1 0.1 0.5</emissive>
+          </material>
+        <cast_shadows>true</cast_shadows>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://diver/meshes/mask.dae</uri>
+            <scale>1.0 1.0 1.0</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

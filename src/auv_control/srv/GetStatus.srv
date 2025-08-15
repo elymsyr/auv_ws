@@ -1,0 +1,6 @@
+# A service to request the current status of a node or system.
+# The request is empty.
+---
+# The response contains status information.
+string mission_name
+bool is_running

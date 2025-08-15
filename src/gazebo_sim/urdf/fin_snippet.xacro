@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="fin_mass" value="0.5"/>
+
+    <xacro:macro name="fin" params="name *origin inertia_offset_x inertia_offset_y fin_mesh_file">
+        <!--  THIS LINK IS USED TO VISUALIZE FIN ROTATIONS -->
+        <!-- *********************************************** -->
+        <joint name="${name}_fin" type="revolute">
+            <xacro:insert_block name="origin"/>
+            <parent link="body"/>
+            <child link="${name}_fin_link"/>
+            <axis xyz="0 1 0" />
+            <limit upper="100.57" lower="-100.57" velocity="50.0" effort="10.0"/>
+        </joint>
+
+        <link name="${name}_fin_link">
+          <inertial>
+            <origin xyz="${-inertia_offset_x} ${inertia_offset_y} 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="${fin_mass}" />
+            <inertia
+                ixx="${(1.0/12.0) * fin_mass * (fin_collision_box_y ** 2 + fin_collision_box_z ** 2)}"
+                ixy="0.0"
+                ixz="0.0"
+                iyy="${(1.0/12.0) * fin_mass * (fin_collision_box_x ** 2 + fin_collision_box_z ** 2)}"
+                iyz="0.0"
+                izz="${(1.0/12.0) * fin_mass * (fin_collision_box_y ** 2 + fin_collision_box_x ** 2)}"/>
+          </inertial>
+         <visual>
+           <origin xyz="0 0 0" rpy="0 0 0"/>
+           <geometry>
+             <mesh filename="${fin_mesh_file}" scale="1 1 1" />
+           </geometry>
+         </visual>
+
+         <!-- <collision>
+           <origin xyz="0 0 0" rpy="0 0 0"/>
+           <geometry>
+             <mesh filename="${fin_mesh_file}" scale="1 1 1" />
+           </geometry>
+         </collision> -->
+
+        </link>
+        <!-- *********************************************** -->
+        <gazebo reference="${name}_fin_link">
+          <material>Gazebo/Green</material>
+        </gazebo>
+
+    </xacro:macro>
+
+
+
+</robot>
