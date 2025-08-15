@@ -13,14 +13,15 @@ find_package(gazebo_ros REQUIRED)
 find_package(gazebo_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 
-# This finds Gazebo itself and sets up important CMake variables
-find_package(gazebo REQUIRED)
-
-
 # === DEFINE AND BUILD YOUR C++ PLUGIN ===
 add_library(auv_dynamics_plugin SHARED
   src/auv_dynamics_plugin.cpp
   src/vehicle_model.cpp
+)
+
+target_compile_definitions(auv_dynamics_plugin
+  PRIVATE
+    "google::protobuf::internal::AuxillaryParseTableField=google::protobuf::internal::AuxiliaryParseTableField"
 )
 
 # === CONFIGURE COMPILER AND LINKER ===

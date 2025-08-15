@@ -1,43 +1,44 @@
-#ifndef AUV_CONTROL_SYSTEM_ENVIRONMENT_SYSTEM_H
-#define AUV_CONTROL_SYSTEM_ENVIRONMENT_SYSTEM_H
+#ifndef ENVIRONMENT_SYSTEM_H
+#define ENVIRONMENT_SYSTEM_H
 
-// ROS 2 Includes
+#include <google/protobuf/message.h>
+
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 #include "auv_control/msg/environment_topic.hpp"
 #include "auv_control/msg/motion_topic.hpp"
-
+// ADD THIS for the Gazebo message
+#include "gazebo_msgs/msg/entity_state.hpp"
 #include <mutex>
-#include <memory>
 
 class EnvironmentSystem {
 public:
-    explicit EnvironmentSystem(rclcpp_lifecycle::LifecycleNode::SharedPtr node);
-    ~EnvironmentSystem() = default;
-
-    // Lifecycle management methods called by the orchestrator
+    EnvironmentSystem(rclcpp_lifecycle::LifecycleNode::SharedPtr node);
     bool configure();
     bool activate();
     bool deactivate();
     bool cleanup();
 
 private:
-    // Callback for the motion topic subscription
-    void motion_topic_callback(const auv_control::msg::MotionTopic::SharedPtr msg);
-
-    // Callback for the timer, this is our main processing loop
-    void timer_callback();
-
-    // Pointer to the main ROS 2 node
-    rclcpp_lifecycle::LifecycleNode::SharedPtr node_;
-
-    // ROS 2 publisher, subscriber, and timer
-    rclcpp::Publisher<auv_control::msg::EnvironmentTopic>::SharedPtr env_pub_;
-    rclcpp::Subscription<auv_control::msg::MotionTopic>::SharedPtr motion_sub_;
-    rclcpp::TimerBase::SharedPtr timer_;
+    // REMOVED old motion_topic_callback and timer_callback
+    // void motion_topic_callback(const auv_control::msg::MotionTopic::SharedPtr msg);
+    // void timer_callback();
     
-    // Member data and mutex for thread-safe data exchange
-    auv_control::msg::MotionTopic motion_state_;
-    std::mutex motion_mtx_;
+    // ADD the new callback function for the Gazebo state
+    void gazebo_state_callback(const gazebo_msgs::msg::EntityState::SharedPtr msg);
+
+    rclcpp_lifecycle::LifecycleNode::SharedPtr node_;
+    rclcpp::Publisher<auv_control::msg::EnvironmentTopic>::SharedPtr env_pub_;
+    
+    // REMOVED old subscriber and timer
+    // rclcpp::Subscription<auv_control::msg::MotionTopic>::SharedPtr motion_sub_;
+    // rclcpp::TimerBase::SharedPtr timer_;
+    
+    // ADD the new subscriber member variable
+    rclcpp::Subscription<gazebo_msgs::msg::EntityState>::SharedPtr gazebo_state_sub_;
+    
+    // REMOVED old state variables that are no longer needed
+    // std::mutex motion_mtx_;
+    // auv_control::msg::MotionTopic motion_state_;
 };
 
-#endif // AUV_CONTROL_SYSTEM_ENVIRONMENT_SYSTEM_H
+#endif // ENVIRONMENT_SYSTEM_H

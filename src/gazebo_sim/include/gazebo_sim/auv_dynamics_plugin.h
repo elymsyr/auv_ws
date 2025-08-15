@@ -1,6 +1,8 @@
 #ifndef AUV_DYNAMICS_PLUGIN_H
 #define AUV_DYNAMICS_PLUGIN_H
 
+#include <google/protobuf/message.h>
+
 #include <gazebo/common/Plugin.hh>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/float32_multi_array.hpp>

@@ -1,3 +1,5 @@
+#include <google/protobuf/message.h>
+
 #include "auv_control/system/environment_system.h"
 #include <chrono>
 // ADD THIS INCLUDE for the Gazebo message type

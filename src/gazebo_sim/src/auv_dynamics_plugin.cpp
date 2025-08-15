@@ -1,3 +1,5 @@
+#include <google/protobuf/message.h>
+
 #include "gazebo_sim/auv_dynamics_plugin.h"
 #include <gazebo/physics/Model.hh>
 #include <gazebo/physics/World.hh>
@@ -5,6 +7,8 @@
 #include <ignition/math/Pose3.hh>
 #include <ignition/math/Quaternion.hh>
 #include <ignition/math/Vector3.hh>
+
+#include <gazebo_msgs/msg/entity_state.hpp>
 
 namespace gazebo
 {
@@ -116,8 +120,6 @@ namespace gazebo
     auto [eta_dot, nu_dot] = this->vehicle_model_->dynamics(this->eta_, this->nu_, current_thruster_forces);
     this->eta_ += eta_dot * dt;
     this->nu_ += nu_dot * dt;
-    std::cout << "Current Velocity: " << this->nu_.transpose() << std::endl;
-    std::cout << "Current Thruster Forces: " << current_thruster_forces.transpose() << std::endl;
 
     // --- Gazebo Update ---
     ignition::math::Pose3d new_pose;
