@@ -7,7 +7,7 @@
 
 using json = nlohmann::json;
 
-ModelInference::ModelInference(const rclcpp::Logger& logger) : loaded(false), scalers_loaded(false), logger_(logger) {}
+ModelInference::ModelInference(const rclcpp::Logger& logger) : logger_(logger), loaded(false), scalers_loaded(false) {}
 
 ModelInference::~ModelInference() {
     releaseResources();

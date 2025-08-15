@@ -281,15 +281,15 @@ void EnvironmentMap::copyNodeToHost(float* host_buffer, const char mode) const {
     cudaMemcpy(node_buffer, node_grid_, byte_size, cudaMemcpyDeviceToHost);
     
     if (mode == 'f') {
-        for (int i = 0; i < node_count; ++i) {
+        for (size_t i = 0; i < node_count; ++i) {
             host_buffer[i] = node_buffer[i].g + node_buffer[i].h;
         }
     } else if (mode == 'g') {
-        for (int i = 0; i < node_count; ++i) {
+        for (size_t i = 0; i < node_count; ++i) {
             host_buffer[i] = node_buffer[i].g;
         }
     } else if (mode == 'h') {
-        for (int i = 0; i < node_count; ++i) {
+        for (size_t i = 0; i < node_count; ++i) {
             host_buffer[i] = node_buffer[i].h;
         }
     } else {

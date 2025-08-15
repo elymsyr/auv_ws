@@ -3,19 +3,17 @@
 <package format="3">
   <name>gazebo_sim</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="you@email.com">Your Name</maintainer>
-  <license>Apache-2.0</license>
+  <description>Gazebo simulation and plugins for the AUV.</description>
+  <maintainer email="elymsyr@todo.todo">elymsyr</maintainer>
+  <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-
+  
   <depend>rclcpp</depend>
-  <depend>gazebo_ros</depend>
   <depend>std_msgs</depend>
+  <depend>gazebo_ros</depend>
   <depend>gazebo_msgs</depend>
-
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+  <depend>auv_control</depend> <!-- Depends on the MESSAGES from the other package -->
 
   <export>
     <build_type>ament_cmake</build_type>

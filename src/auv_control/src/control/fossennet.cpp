@@ -9,7 +9,7 @@
 #include "auv_control/msg/environment_topic.hpp"
 #include "auv_control/msg/mission_topic.hpp"
 
-NonlinearMPC::NonlinearMPC(const rclcpp::Logger& logger, std::string modelPath, std::string scalerPath) : modelPath(modelPath), scalerPath(scalerPath), logger_(logger), model(logger) {}
+NonlinearMPC::NonlinearMPC(const rclcpp::Logger& logger, std::string modelPath, std::string scalerPath) : model(logger), modelPath(modelPath), scalerPath(scalerPath), logger_(logger) {}
 
 void NonlinearMPC::initialization() {
     if (torch::cuda::is_available()) {

@@ -1,12 +1,28 @@
+export CUDA_HOME=/usr/local/cuda-11.8
+export PATH=/usr/local/cuda-11.8/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH
+nvcc --version
 export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:/home/elymsyr/GitHub/auv_ws/libtorch
-rm -rf build install log
 source /opt/ros/humble/setup.bash
 cd ~/GitHub/auv_ws
-colcon build --cmake-clean-cache --symlink-install --packages-select auv_control
-source install/setup.bash
-
+rm -rf build install log
 chmod +x src/gazebo_sim/scripts/*.py src/gazebo_sim/launch/*.py 
 chmod +r src/gazebo_sim/config/config.json
+
+cd ~/GitHub/auv_ws
+rm -rf build install log
+colcon build --cmake-clean-cache --symlink-install \
+  --cmake-args "-DCMAKE_PREFIX_PATH=$(pwd)/libtorch"
+source install/setup.bash
+
+ros2 launch auv_control sim_with_control.launch.py
+
+-----------------------------------------------------------------------------------------------
+
+cd ~/GitHub/auv_ws
+rm -rf build install log
+colcon build --cmake-clean-cache --symlink-install --packages-select auv_control
+source install/setup.bash
 colcon build --symlink-install --packages-select gazebo_sim
 source install/setup.bash
 

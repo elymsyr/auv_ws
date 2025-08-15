@@ -5,7 +5,7 @@ def print_tree(startpath, prefix=''):
     Prints a directory tree structure.
     """
     # Exclude common Python and build artifacts for a cleaner view
-    exclude_dirs = {'__pycache__', '.git', 'build', 'install', 'log', 'libtorch'}
+    exclude_dirs = {'__pycache__', '.git', 'build', 'install', 'log', 'libtorch', 'libtorch(12.8)'}
     
     # Get directory contents and sort them
     try:

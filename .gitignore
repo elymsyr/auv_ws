@@ -1,4 +1,5 @@
 libtorch
+libtorch(12.8)
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,ros2,c++
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,ros2,c++

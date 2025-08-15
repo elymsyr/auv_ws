@@ -1,13 +1,19 @@
+#include <memory>
+#include <string>
+
+// --- THE CRITICAL FIX ---
+#undef google
+// --- END OF FIX ---
+
 #include <google/protobuf/message.h>
 
-#include "gazebo_sim/auv_dynamics_plugin.h"
 #include <gazebo/physics/Model.hh>
 #include <gazebo/physics/World.hh>
 #include <gazebo/common/Events.hh>
 #include <ignition/math/Pose3.hh>
 #include <ignition/math/Quaternion.hh>
 #include <ignition/math/Vector3.hh>
-
+#include "gazebo_sim/auv_dynamics_plugin.h"
 #include <gazebo_msgs/msg/entity_state.hpp>
 
 namespace gazebo
