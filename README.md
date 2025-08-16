@@ -109,16 +109,14 @@ All commands should be run from the workspace root (`auv_ws` or `/root/auv_ws` i
     ros2 service call /mission/start std_srvs/srv/Trigger "{}"
     ```
 
-### System Introspection
+## License
 
-Use the following commands to inspect the running system.
+This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
 
-```sh
-# List all active nodes
-ros2 node list
+### Third-Party Content
 
-# List all topics and their types
-ros2 topic list -t
+Some of the models and assets used in the simulation are from third-party sources and are distributed under their own licenses:
 
-# List all services and their types
-ros2 service
+-   **`herkules_ship_wreck`**: This model is based on the work from the `dave_models` repository, originally licensed under Apache 2.0.
+-   **`diver`**: This model is a common Gazebo asset, and its original license should be verified if used in a derivative work.
+-   **Textures and Materials**: The textures used in the `sand_heightmap`, `sea_bottom`, and `sea_surface` models are from external sources. Please refer to the `License and source for textures.txt` file located in the respective model directories for detailed information.
