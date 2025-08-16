@@ -6,13 +6,12 @@
 #include <gazebo/common/Plugin.hh>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/float32_multi_array.hpp>
-#include <std_msgs/msg/bool.hpp> // For the reset topic
-#include <gazebo_msgs/msg/entity_state.hpp> // For the state publisher
+#include <std_msgs/msg/bool.hpp> 
+#include <gazebo_msgs/msg/entity_state.hpp> 
 #include <mutex>
 #include <thread>
 #include "gazebo_sim/vehicle_model.h"
 
-// Forward declare gazebo classes
 namespace gazebo {
     namespace physics {
         class Model;

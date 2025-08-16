@@ -1,13 +1,18 @@
-export CUDA_HOME=/usr/local/cuda-11.8
-export PATH=/usr/local/cuda-11.8/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH
-nvcc --version
-export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:/home/elymsyr/GitHub/auv_ws/libtorch
-source /opt/ros/humble/setup.bash
-cd ~/GitHub/auv_ws
-rm -rf build install log
-chmod +x src/gazebo_sim/scripts/*.py src/gazebo_sim/launch/*.py 
-chmod +r src/gazebo_sim/config/config.json
+docker build -t ros2_auv_image .
+
+-----------------------------------------------------------------------------------------------
+
+xhost +
+docker run -it --rm \
+    --gpus all \
+    --net=host \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -e DISPLAY=$DISPLAY \
+    ros2_auv_image
+
+-----------------------------------------------------------------------------------------------
+
+docker exec -it containerName bash
 
 -----------------------------------------------------------------------------------------------
 
@@ -28,14 +33,6 @@ source install/setup.bash
 ros2 lifecycle set /auv_orchestrator configure
 ros2 lifecycle set /auv_orchestrator activate
 
------------------------------------------------------------------------------------------------
-
-source install/setup.bash
-ros2 topic echo /environment_state
-
------------------------------------------------------------------------------------------------
-
-source install/setup.bash
 ros2 service call /mission/set auv_control/srv/SetMission "{mission_type: 0}"
 ros2 service call /mission/start auv_control/srv/Trigger "{}"
 

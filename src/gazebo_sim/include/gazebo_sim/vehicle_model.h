@@ -24,8 +24,7 @@ private:
     Matrix6d damping_matrix(const Vector6d& nu) const;
     Vector6d restoring_forces(const Vector6d& eta) const;
 
-    // --- Member Variables ---
-    nlohmann::json config_json_; // Store the loaded JSON data
+    nlohmann::json config_json_;
     double mass_, g_, W_, B_, W_minus_B_;
     Eigen::Vector3d r_g_, r_B_;
     Eigen::Matrix3d I_cg_;
@@ -35,7 +34,6 @@ private:
     Matrix8x6d A_thruster_alloc_;
     Matrix6d M_inv_;
     
-    // Intermediate matrices for Coriolis calculation
     Eigen::Matrix3d A11_added_mass_, A22_added_mass_;
 };
 

@@ -22,7 +22,7 @@ bool ModelInference::loadModel(const std::string& modelPath) {
         }
         
         model = torch::jit::load(modelPath, torch::kCUDA);
-        model.to(torch::kCUDA);  // Ensure model is on GPU
+        model.to(torch::kCUDA);
         loaded = true;
         RCLCPP_INFO(logger_, "Model loaded successfully from: %s", modelPath.c_str());
     } catch (const std::exception& e) {
@@ -96,24 +96,19 @@ std::vector<float> ModelInference::runInference(const std::vector<float>& rawInp
     }
     
     try {
-        // 1. Normalize the raw input data
         std::vector<float> normalized_input = normalize(rawInputData, x_mean, x_std);
 
-        // 2. Create tensor from the *normalized* data
         torch::Tensor input_tensor = torch::tensor(normalized_input, torch::kFloat32)
-                                   .view({1, 501})  // Batch size 1, 501 features
+                                   .view({1, 501})
                                    .to(torch::kCUDA);
         
-        // 3. Run inference
         auto output_tensor = model.forward({input_tensor}).toTensor()
-                               .to(torch::kCPU)  // Move back to CPU for processing
+                               .to(torch::kCPU)
                                .contiguous();
         
-        // 4. Convert normalized output tensor to vector
         float* output_ptr = output_tensor.data_ptr<float>();
         std::vector<float> normalized_output(output_ptr, output_ptr + output_tensor.numel());
 
-        // 5. Denormalize the output vector to get final values
         std::vector<float> final_output = denormalize(normalized_output, y_mean, y_std);
 
         return final_output;
@@ -126,5 +121,5 @@ std::vector<float> ModelInference::runInference(const std::vector<float>& rawInp
 
 void ModelInference::releaseResources() {
     loaded = false;
-    scalers_loaded = false; // also reset this
+    scalers_loaded = false;
 }

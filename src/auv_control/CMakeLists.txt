@@ -11,6 +11,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 set(CMAKE_CUDA_ARCHITECTURES 75 80 86 90)
+set(Torch_DIR $ENV{CONDA_PREFIX}/lib/cmake/Torch)
 
 # =================================================================
 # 2. FIND PACKAGES

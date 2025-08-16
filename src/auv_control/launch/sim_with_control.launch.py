@@ -6,7 +6,6 @@ from launch_ros.actions import Node
 import xacro
 
 def generate_launch_description():
-    # --- GAZEBO_SIM SETUP ---
     gazebo_sim_pkg = get_package_share_directory('gazebo_sim')
     world_path = os.path.join(gazebo_sim_pkg, 'worlds', 'diver_world.world')
     xacro_file = os.path.join(gazebo_sim_pkg, 'urdf', 'AUV', 'base.xacro')
@@ -28,8 +27,6 @@ def generate_launch_description():
     robot_state_publisher_node = Node(package='robot_state_publisher', executable='robot_state_publisher', output='screen', parameters=[robot_description])
     spawn_entity_node = Node(package='gazebo_ros', executable='spawn_entity.py', arguments=['-topic', 'robot_description', '-entity', 'AUV'], output='screen')
 
-    # --- AUV_CONTROL SETUP ---
-    # Node for your main controller orchestrator
     auv_orchestrator_node = Node(
         package='auv_control',
         executable='auv_orchestrator_node',
@@ -37,7 +34,6 @@ def generate_launch_description():
         output='screen'
     )
 
-    # --- ASSEMBLE LAUNCH DESCRIPTION ---
     return LaunchDescription([
         set_model_path,
         set_plugin_path,
@@ -47,6 +43,5 @@ def generate_launch_description():
         robot_state_publisher_node,
         spawn_entity_node,
         
-        # Add your controller node to the launch
         auv_orchestrator_node,
     ])
