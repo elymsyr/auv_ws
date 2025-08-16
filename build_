@@ -16,6 +16,7 @@ docker exec -it containerName bash
 
 -----------------------------------------------------------------------------------------------
 
+source /opt/ros/humble/setup.bash
 cd ~/GitHub/auv_ws
 rm -rf build install log
 colcon build --cmake-clean-cache --symlink-install \
