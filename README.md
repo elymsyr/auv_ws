@@ -22,6 +22,14 @@ This project provides a simulation and control stack for an Autonomous Underwate
     -   **Vehicle Model**: An implementation of the AUV's physical properties based on Fossen's model.
     -   **Worlds/Models**: Gazebo world files and the AUV's URDF.
 
+## FossenNet: AI-Based Controller
+
+The core of the AUV's motion control is `FossenNet`, a deep neural network trained to imitate a computationally expensive nonlinear Model Predictive Controller (NL-MPC). This approach allows for real-time, high-performance control by leveraging a pre-trained model for inference within the ROS 2 ecosystem. The Gazebo dynamics plugin is based on Fossen's equations, and this network is trained specifically to control a vehicle governed by these dynamics.
+
+-   **Function**: It takes the AUV's current state (velocities and orientations) and a future reference trajectory as input, and outputs the optimal commands for the 8 thrusters.
+-   **Model**: The trained model is a TorchScript file (`fossen_net_scripted.pt`) located in `src/auv_control/models/`. It is loaded by the `MotionSystem` using LibTorch (the C++ distribution of PyTorch) for efficient, low-latency inference.
+-   **Architecture**: `FossenNet` uses a multi-branch architecture featuring an LSTM to process the time-series trajectory data and fully connected layers to process the current state vector. The combined features are then passed through a final set of layers to predict the thruster commands. For more details on the model training and architecture, see the [auv_control_model repository](https://github.com/elymsyr/auv_control_model).
+
 ## Installation and Build
 
 ### Prerequisites
