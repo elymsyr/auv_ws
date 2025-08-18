@@ -120,3 +120,4 @@ Some of the models and assets used in the simulation are from third-party source
 -   **`herkules_ship_wreck`**: This model is based on the work from the `dave_models` repository, originally licensed under Apache 2.0.
 -   **`diver`**: This model is a common Gazebo asset, and its original license should be verified if used in a derivative work.
 -   **Textures and Materials**: The textures used in the `sand_heightmap`, `sea_bottom`, and `sea_surface` models are from external sources. Please refer to the `License and source for textures.txt` file located in the respective model directories for detailed information.
+-   [eeUVsim_Gazebo](https://github.com/Centre-for-Biorobotics/eeUVsim_Gazebo)
