@@ -61,7 +61,7 @@ void EnvironmentSystem::gazebo_state_callback(const gazebo_msgs::msg::EntityStat
     // --- POSITION CONVERSION (ENU to NED) ---
     // This part is correct
     env_msg->eta[0] = msg->pose.position.x;
-    env_msg->eta[1] = -msg->pose.position.y;
+    env_msg->eta[1] = msg->pose.position.y;
     env_msg->eta[2] = -msg->pose.position.z;
 
     // --- ORIENTATION CONVERSION (Quaternion to Euler NED) ---
@@ -83,17 +83,17 @@ void EnvironmentSystem::gazebo_state_callback(const gazebo_msgs::msg::EntityStat
 
     // --- Apply the ENU to NED conversion for angles ---
     env_msg->eta[3] = roll;
-    env_msg->eta[4] = -pitch;
+    env_msg->eta[4] = pitch;
     env_msg->eta[5] = -yaw; 
 
     // --- VELOCITY CONVERSION (ENU to NED) ---
     // You also need to convert linear and angular velocities!
     env_msg->nu[0] = msg->twist.linear.x;
-    env_msg->nu[1] = -msg->twist.linear.y;
-    env_msg->nu[2] = -msg->twist.linear.z;
+    env_msg->nu[1] = msg->twist.linear.y;
+    env_msg->nu[2] = msg->twist.linear.z;
     env_msg->nu[3] = msg->twist.angular.x;
-    env_msg->nu[4] = -msg->twist.angular.y;
-    env_msg->nu[5] = -msg->twist.angular.z;
+    env_msg->nu[4] = msg->twist.angular.y;
+    env_msg->nu[5] = msg->twist.angular.z;
     
     // Now publish the fully converted message
     env_pub_->publish(std::move(env_msg));
