@@ -48,7 +48,7 @@ bool ModelInference::loadScalers(const std::string& scalerPath) {
         y_std = scaler_data["y_std"].get<std::vector<float>>();
 
         // Validate sizes
-        if (x_mean.size() != 501 || x_std.size() != 501 || y_mean.size() != 8 || y_std.size() != 8) {
+        if (x_mean.size() != 25 || x_std.size() != 25 || y_mean.size() != 8 || y_std.size() != 8) {
             throw std::runtime_error("Scaler dimensions do not match expected model I/O.");
         }
         
@@ -89,9 +89,9 @@ std::vector<float> ModelInference::runInference(const std::vector<float>& rawInp
     }
     
     // Validate input size
-    if (rawInputData.size() != 501) {
+    if (rawInputData.size() != 25) {
         std::ostringstream err;
-        err << "Invalid input size. Expected 501 elements, got " << rawInputData.size();
+        err << "Invalid input size. Expected 25 elements, got " << rawInputData.size();
         throw std::invalid_argument(err.str());
     }
     
@@ -99,7 +99,7 @@ std::vector<float> ModelInference::runInference(const std::vector<float>& rawInp
         std::vector<float> normalized_input = normalize(rawInputData, x_mean, x_std);
 
         torch::Tensor input_tensor = torch::tensor(normalized_input, torch::kFloat32)
-                                   .view({1, 501})
+                                   .view({1, 25})
                                    .to(torch::kCUDA);
         
         auto output_tensor = model.forward({input_tensor}).toTensor()

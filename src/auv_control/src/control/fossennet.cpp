@@ -21,7 +21,6 @@ void NonlinearMPC::initialization() {
         package_share_path = ament_index_cpp::get_package_share_directory("auv_control");
     } catch (const std::exception& e) {
         RCLCPP_FATAL(logger_, "Package 'auv_control' not found -> ament_index_cpp::get_package_share_directory: %s", e.what());
-        // Handle error, maybe throw an exception or shutdown
         return;
     }
 
@@ -37,14 +36,14 @@ void NonlinearMPC::initialization() {
         }
     } catch (const std::exception& e) {
         RCLCPP_ERROR(logger_, "Initialization error: %s", e.what());
-        throw; // Re-throw the exception
+        throw;
     }
 }
 
 std::array<double, 8> NonlinearMPC::solve(const auv_control::msg::EnvironmentTopic& local_env, const auv_control::msg::MissionTopic& local_mission)
 {
     std::vector<float> rawInputData;
-    rawInputData.reserve(12 + HORIZON * 12);
+    rawInputData.reserve(25);
 
     for (size_t i = 3; i < 6; ++i) {
         rawInputData.push_back(static_cast<float>(local_env.eta[i]));
@@ -52,20 +51,22 @@ std::array<double, 8> NonlinearMPC::solve(const auv_control::msg::EnvironmentTop
     for (size_t i = 0; i < 6; ++i) {
         rawInputData.push_back(static_cast<float>(local_env.nu[i]));
     }
+    const std::vector<size_t> horizon_indices_to_sample = {9, 19, 29, 39};
 
-    for (size_t i = 1; i <= HORIZON; ++i) {
-        const auto& point = local_mission.trajectory[i];
+    for (const size_t& step_idx : horizon_indices_to_sample) {
+        if (step_idx >= local_mission.trajectory.size()) {
+            RCLCPP_ERROR(logger_, "Trajectory is too short to sample at index %zu. Filling with zeros.", step_idx);
+            rawInputData.insert(rawInputData.end(), 4, 0.0f);
+            continue;
+        }
+
+        const auto& point = local_mission.trajectory[step_idx];
 
         rawInputData.push_back(static_cast<float>(point.eta_desired[0] - local_env.eta[0]));
         rawInputData.push_back(static_cast<float>(point.eta_desired[1] - local_env.eta[1]));
         rawInputData.push_back(static_cast<float>(point.eta_desired[2] - local_env.eta[2]));
-        
-        for (size_t j = 3; j < 6; ++j) {
-            rawInputData.push_back(static_cast<float>(point.eta_desired[j]));
-        }
-        for (size_t j = 0; j < 6; ++j) {
-            rawInputData.push_back(static_cast<float>(point.nu_desired[j]));
-        }
+
+        rawInputData.push_back(static_cast<float>(point.eta_desired[5]));
     }
 
     std::vector<float> control_output_float;
